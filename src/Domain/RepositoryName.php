@@ -20,7 +20,7 @@ final class RepositoryName
     {
         Ensure::string($repositoryName);
         Ensure::notBlank($repositoryName);
-        Ensure::contains($repositoryName, '/');
+        Ensure::regex($repositoryName, "/^[a-zA-Z0-9\-]+\/[a-zA-Z0-9\-\.]+$/");
 
         $this->repositoryName = $repositoryName;
     }
