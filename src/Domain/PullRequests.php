@@ -32,8 +32,6 @@ final class PullRequests implements \IteratorAggregate, \Countable
     private function add(PullRequest $pullRequest)
     {
         $this->pullRequests[] = $pullRequest;
-
-        return $this;
     }
 
     /**
