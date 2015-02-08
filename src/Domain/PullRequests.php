@@ -27,7 +27,7 @@ final class PullRequests implements \IteratorAggregate, \Countable
     /**
      * @param PullRequest $pullRequest
      *
-     * @return PullRequests $this
+     * @return PullRequests
      */
     public function add(PullRequest $pullRequest)
     {
