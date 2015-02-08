@@ -1,4 +1,5 @@
 # LonelyPullRequests.com
+[![Build status](https://travis-ci.org/LonelyPullRequestsHQ/lonelypullrequests.com.svg)](https://travis-ci.org/LonelyPullRequestsHQ/lonelypullrequests.com)
 
 ## Contributing
 
