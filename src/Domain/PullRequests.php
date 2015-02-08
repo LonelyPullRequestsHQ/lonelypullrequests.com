@@ -19,9 +19,7 @@ final class PullRequests implements \IteratorAggregate, \Countable
     {
         Ensure::allIsInstanceOf($pullRequests, PullRequest::class);
 
-        foreach ($pullRequests as $pullRequest) {
-            $this->add($pullRequest);
-        }
+        $this->pullRequests = $pullRequests;
     }
 
     /**
