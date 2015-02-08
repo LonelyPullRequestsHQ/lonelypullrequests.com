@@ -1,0 +1,4 @@
+services:
+#    lonely_pull_requests.example:
+#        class: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

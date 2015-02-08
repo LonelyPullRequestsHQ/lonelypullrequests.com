@@ -1,13 +1,16 @@
 {
-    "name": "dennisdegreef/lonelypullrequests",
+    "name": "lonelypullrequestshq/lonelypullrequests.com",
     "license": "MIT",
     "type": "project",
-    "description": "LonelyPullRequests project",
+    "description": "LonelyPullRequests.com",
     "autoload": {
-        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
+        "psr-4": {
+            "LonelyPullRequests\\": "src/"
+        },
+        "psr-0": { "SymfonyStandard": "app/" }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5",
         "symfony/symfony": "2.6.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
@@ -18,7 +21,7 @@
         "sensio/distribution-bundle": "~3.0.12",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-	"knplabs/github-api": "~1.4"
+        "knplabs/github-api": "~1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
