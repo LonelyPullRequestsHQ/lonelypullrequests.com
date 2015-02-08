@@ -1,0 +1,3 @@
+lonely_pull_requests_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: LonelyPullRequestsBundle:Default:index }
