@@ -1,1 +1,31 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>Foobar</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    </div>
+
+    <div class="row overview">
+        <div class="col-lg-12">
+            <h4>Loneliest pull requests</h4>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pull request</th>
+                        <th>Loneliness</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pullRequest in pullRequests %}
+                        <tr>
+                            <td><a href="{{ pullRequest.url }}">{{ pullRequest.summary }}</a></td>
+                            <td>{{ pullRequest.loneliness }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
