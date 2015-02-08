@@ -25,13 +25,7 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
      */
     public function add(PullRequest $pullRequest)
     {
-        $pullRequests = array();
-        foreach($this->pullRequests as $requests) {
-            $pullRequests[] = $requests;
-        }
-        $pullRequests[] = $pullRequest;
-
-        $this->pullRequests = new PullRequests($pullRequests);
+        $this->pullRequests = $this->pullRequests->add($pullRequest);
     }
 
     /**

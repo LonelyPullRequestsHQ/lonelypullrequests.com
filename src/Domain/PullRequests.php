@@ -29,9 +29,9 @@ final class PullRequests implements \IteratorAggregate, \Countable
      *
      * @return PullRequests $this
      */
-    private function add(PullRequest $pullRequest)
+    public function add(PullRequest $pullRequest)
     {
-        $this->pullRequests[] = $pullRequest;
+        return new PullRequests(array_merge($this->pullRequests, [$pullRequest]));
     }
 
     /**
