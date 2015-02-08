@@ -3,8 +3,9 @@
 namespace LonelyPullRequests\Domain;
 
 use Assert\Assertion as Ensure;
+use Traversable;
 
-final class PullRequests implements \IteratorAggregate
+final class PullRequests implements \IteratorAggregate, \Countable
 {
     /**
      * @var PullRequest[]
@@ -23,13 +24,29 @@ final class PullRequests implements \IteratorAggregate
         }
     }
 
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return PullRequests
+     */
     public function add(PullRequest $pullRequest)
     {
-        $this->pullRequests[] = $pullRequest;
+        return new PullRequests(array_merge($this->pullRequests, [$pullRequest]));
     }
 
+    /**
+     * @return Traversable
+     */
     public function getIterator()
     {
         return new \ArrayIterator($this->pullRequests);
+    }
+
+    /**
+     * @see Countable::count
+     */
+    public function count()
+    {
+        return sizeof($this->pullRequests);
     }
 }

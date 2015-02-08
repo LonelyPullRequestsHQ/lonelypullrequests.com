@@ -3,12 +3,14 @@
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Controller;
 
 use LonelyPullRequests\Domain\PullRequest;
+use LonelyPullRequests\Infrastructure\Persistence\InMemoryPullRequestsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
     public function indexAction()
     {
+        /** @var InMemoryPullRequestsRepository $repository */
         $repository = $this->get('lonely_pull_requests.repository.pull_requests');
 
         // Add bogus data

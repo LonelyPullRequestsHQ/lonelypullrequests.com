@@ -20,10 +20,12 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
 
     /**
      * @param PullRequest $pullRequest
+     *
+     * @return PullRequests
      */
     public function add(PullRequest $pullRequest)
     {
-        $this->pullRequests->add($pullRequest);
+        $this->pullRequests = $this->pullRequests->add($pullRequest);
     }
 
     /**
