@@ -17,7 +17,7 @@ class DefaultController extends Controller
         $repository->add(
             PullRequest::fromArray(
                 [
-                    'summary' => 'My great pull request',
+                    'title' => 'My great pull request',
                     'repositoryName' => 'LonelyPullRequestsHQ/lonelypullrequests.com',
                     'url' => 'https://github.com/LonelyPullRequestsHQ/lonelypullrequests.com/pull/7',
                     'loneliness' => 50
@@ -27,7 +27,7 @@ class DefaultController extends Controller
         $repository->add(
             PullRequest::fromArray(
                 [
-                    'summary' => 'Another great pull request',
+                    'title' => 'Another great pull request',
                     'repositoryName' => 'LonelyPullRequestsHQ/lonelypullrequests.com',
                     'url' => 'https://github.com/LonelyPullRequestsHQ/lonelypullrequests.com/pull/7',
                     'loneliness' => 25
@@ -37,7 +37,7 @@ class DefaultController extends Controller
         $repository->add(
             PullRequest::fromArray(
                 [
-                    'summary' => 'A not so lonely pull request',
+                    'title' => 'A not so lonely pull request',
                     'repositoryName' => 'LonelyPullRequestsHQ/lonelypullrequests.com',
                     'url' => 'https://github.com/LonelyPullRequestsHQ/lonelypullrequests.com/pull/7',
                     'loneliness' => 5

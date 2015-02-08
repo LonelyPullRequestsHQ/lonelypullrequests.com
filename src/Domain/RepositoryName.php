@@ -20,6 +20,7 @@ final class RepositoryName
     {
         Ensure::string($repositoryName);
         Ensure::notBlank($repositoryName);
+        Ensure::contains($repositoryName, '/');
 
         $this->repositoryName = $repositoryName;
     }

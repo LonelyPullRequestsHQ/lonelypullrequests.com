@@ -4,29 +4,29 @@ namespace LonelyPullRequests\Domain;
 
 use Assert\Assertion as Ensure;
 
-final class Summary
+final class Title
 {
     /**
      * @var string
      */
-    private $summary;
+    private $title;
 
     public static function fromString($string)
     {
-        return new Summary($string);
+        return new Title($string);
     }
 
-    private function __construct($summary)
+    private function __construct($title)
     {
-        Ensure::string($summary);
-        Ensure::notBlank($summary);
+        Ensure::string($title);
+        Ensure::notBlank($title);
 
-        $this->summary = $summary;
+        $this->title = $title;
     }
 
     public function toString()
     {
-        return $this->summary;
+        return $this->title;
     }
 
     public function __toString()
