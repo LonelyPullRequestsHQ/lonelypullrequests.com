@@ -6,8 +6,14 @@ use Assert\Assertion as Ensure;
 
 final class PullRequests implements \IteratorAggregate
 {
+    /**
+     * @var PullRequest[]
+     */
     private $pullRequests = [];
 
+    /**
+     * @param PullRequest[] $pullRequests
+     */
     public function __construct(array $pullRequests = [])
     {
         Ensure::allIsInstanceOf($pullRequests, PullRequest::class);
