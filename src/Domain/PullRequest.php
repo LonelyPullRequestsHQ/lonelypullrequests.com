@@ -46,7 +46,7 @@ final class PullRequest
         return new PullRequest($title, $repositoryName, $url, $loneliness);
     }
 
-    private  function __construct(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
+    private function __construct(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
         $this->title = $title;
         $this->repositoryName = $repositoryName;
