@@ -13,6 +13,13 @@ class DefaultController extends Controller
         /** @var InMemoryPullRequestsRepository $repository */
         $repository = $this->get('lonely_pull_requests.repository.pull_requests');
 
+        $doctrine = $this->getDoctrine();
+        $manager = $doctrine->getEntityManager();
+        $pullRequestRepository = $manager->getRepository('LonelyPullRequests\Domain\PullRequest');
+        echo '<pre>';
+        print_r($pullRequestRepository);
+        exit;
+
         // Add bogus data
         $repository->add(
             PullRequest::fromArray(

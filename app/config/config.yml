@@ -61,7 +61,15 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        entity_managers:
+            default:
+                mappings:
+                    custom_mapping:
+                        type: yml
+                        prefix: LonelyPullRequests\Domain\
+                        dir: "%kernel.root_dir%/../src/Domain/"
+                        is_bundle: false
+
 
 # Swiftmailer Configuration
 swiftmailer:
