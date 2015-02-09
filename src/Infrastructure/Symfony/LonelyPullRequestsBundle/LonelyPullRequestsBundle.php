@@ -3,7 +3,6 @@
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle;
 
 use Doctrine\DBAL\Types\Type;
-use LonelyPullRequests\Infrastructure\Symfony\Type\RepositoryNameType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -14,29 +13,21 @@ class LonelyPullRequestsBundle extends Bundle
      */
     public function boot()
     {
-        echo '<pre>';
-
-        Type::addType('repositoryName', 'LonelyPullRequests\Infrastructure\Symfony\Type\RepositoryTypeName');
-        var_dump(Type::getTypesMap());
-        $this->container->get('doctrine.orm.default_entity_manager')->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('repositoryName', 'repositoryName');
-
-        /**
-         * ClassNotFoundException in Type.php line 174:
-        Attempted to load class "RepositoryTypeName" from namespace "LonelyPullRequests\Infrastructure\Symfony\Type".
-        Did you forget a "use" statement for another namespace?
-         *
-         * :(
-         */
-        var_dump(Type::getTypesMap());exit;
-
-        //var_dump(class_exists('\LonelyPullRequests\Infrastructure\Symfony\Type\RepositoryNameType'));
-
-        //Type::addType('repositoryName', '\LonelyPullRequests\Infrastructure\Symfony\Type\RepositoryNameType');
+        $customTypes = array(
+            'loneliness' => '\LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\LonelinessType',
+            'repositoryName' => '\LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\RepositoryNameType',
+            'summary' => '\LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\SummaryType',
+            'url' => '\LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\UrlType'
+        );
 
         /** @var EntityManager $em */
-        //$em = $this->container->get('doctrine.orm.default_entity_manager');
+        $em = $this->container->get('doctrine.orm.default_entity_manager');
+        $conn = $em->getConnection();
 
-        //$conn = $em->getConnection();
-        //$conn->getDatabasePlatform()->registerDoctrineTypeMapping('repositoryName', 'repositoryName');
+        // Add value-objects as Doctrine DBAL custom types
+        foreach($customTypes as $typeName => $typeClass) {
+            Type::addType($typeName, $typeClass);
+            $conn->getDatabasePlatform()->registerDoctrineTypeMapping($typeName, $typeName);
+        }
     }
 }

@@ -4,21 +4,21 @@ namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Typ
 
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Url;
 
 /**
- * RepositoryName type for Doctrine to map the value-object
+ * Url type for Doctrine to map the value-object
  *
  */
-class RepositoryNameType extends StringType
+class UrlType extends StringType
 {
-    const NAME = 'repositoryName';
+    const NAME = 'url';
 
     /**
      * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        return RepositoryName::fromString($value);
+        return Url::fromString($value);
     }
 
     /**

@@ -2,31 +2,35 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type;
 
-use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Loneliness;
 
 /**
- * RepositoryName type for Doctrine to map the value-object
+ * Loneliness type for Doctrine to map the value-object
  *
  */
-class RepositoryNameType extends StringType
+class LonelinessType extends IntegerType
 {
-    const NAME = 'repositoryName';
+    const NAME = 'loneliness';
 
     /**
      * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        return RepositoryName::fromString($value);
+        if(ctype_digit($value)) {
+            $value = (int) $value;
+        }
+
+        return Loneliness::fromInteger($value);
     }
 
     /**
      * {@inheritdoc}
      */
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        return $value->toString();
+        /** @var \LonelyPullRequests\Domain\Loneliness $value */
+        return $value->toInteger();
     }
 
     /**

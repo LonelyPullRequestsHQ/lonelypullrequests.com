@@ -14,11 +14,11 @@ LonelyPullRequests\Domain\PullRequest:
       unique: true
   fields:
     summary:
-      type: string
+      type: summary
       length: 255
     url:
-      type: string
+      type: url
       length: 255
     loneliness:
-      type: integer
+      type: loneliness
       length: 8
