@@ -58,6 +58,11 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+            loneliness: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\LonelinessType
+            repositoryName: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\RepositoryNameType
+            summary: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\SummaryType
+            url: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\UrlType
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
