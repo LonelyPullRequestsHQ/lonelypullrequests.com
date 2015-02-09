@@ -24,7 +24,7 @@
                 <tbody>
                     {% for pullRequest in pullRequests %}
                         <tr>
-                            <td><a href="{{ pullRequest.url }}">{{ pullRequest.summary }}</a></td>
+                            <td><a href="{{ pullRequest.url }}">{{ pullRequest.title }}</a></td>
                             <td>{{ pullRequest.loneliness }}</td>
                         </tr>
                     {% endfor %}

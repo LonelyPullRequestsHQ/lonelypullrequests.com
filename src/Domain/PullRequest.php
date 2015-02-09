@@ -7,9 +7,9 @@ use Assert\Assertion as Ensure;
 final class PullRequest
 {
     /**
-     * @var Summary
+     * @var Title
      */
-    private $summary;
+    private $title;
 
     /**
      * @var RepositoryName
@@ -28,38 +28,38 @@ final class PullRequest
 
     public static function fromArray(array $array)
     {
-        Ensure::keyExists($array, 'summary');
+        Ensure::keyExists($array, 'title');
         Ensure::keyExists($array, 'repositoryName');
         Ensure::keyExists($array, 'url');
         Ensure::keyExists($array, 'loneliness');
 
         return PullRequest::create(
-            Summary::fromString($array['summary']),
+            Title::fromString($array['title']),
             RepositoryName::fromString($array['repositoryName']),
             Url::fromString($array['url']),
             Loneliness::fromInteger($array['loneliness'])
         );
     }
 
-    public static function create(Summary $summary, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
+    public static function create(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
-        return new PullRequest($summary, $repositoryName, $url, $loneliness);
+        return new PullRequest($title, $repositoryName, $url, $loneliness);
     }
 
-    private  function __construct(Summary $summary, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
+    private  function __construct(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
-        $this->summary = $summary;
+        $this->title = $title;
         $this->repositoryName = $repositoryName;
         $this->url = $url;
         $this->loneliness = $loneliness;
     }
 
     /**
-     * @return Summary
+     * @return Title
      */
-    public function summary()
+    public function title()
     {
-        return $this->summary;
+        return $this->title;
     }
 
     /**
