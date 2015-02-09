@@ -61,7 +61,7 @@ doctrine:
         types:
             loneliness: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\LonelinessType
             repositoryName: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\RepositoryNameType
-            summary: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\SummaryType
+            title: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\TitleType
             url: LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type\UrlType
 
     orm:
