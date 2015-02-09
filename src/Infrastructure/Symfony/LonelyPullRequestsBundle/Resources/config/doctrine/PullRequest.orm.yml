@@ -13,8 +13,8 @@ LonelyPullRequests\Domain\PullRequest:
       length: 255
       unique: true
   fields:
-    summary:
-      type: summary
+    title:
+      type: title
       length: 255
     url:
       type: url

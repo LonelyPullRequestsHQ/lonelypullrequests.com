@@ -4,14 +4,14 @@ namespace LonelyPullRequests\Domain;
 
 use PHPUnit_Framework_TestCase;
 
-class SummaryTest extends PHPUnit_Framework_TestCase
+class TitleTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Constructor should be private
      */
     public function testCannotInstantiateExternally()
     {
-        $reflection = new \ReflectionClass('\LonelyPullRequests\Domain\Summary');
+        $reflection = new \ReflectionClass('\LonelyPullRequests\Domain\Title');
         $constructor = $reflection->getConstructor();
         $this->assertFalse($constructor->isPublic());
     }
@@ -22,7 +22,7 @@ class SummaryTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertionOnEmptyString()
     {
-        Summary::fromString('');
+        Title::fromString('');
     }
 
     /**
@@ -31,7 +31,7 @@ class SummaryTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertionForStringOnInteger()
     {
-        Summary::fromString(42);
+        Title::fromString(42);
     }
 
     /**
@@ -39,10 +39,10 @@ class SummaryTest extends PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $summary = 'foo/bar';
+        $title = 'foo/bar';
 
-        $summaryObject = Summary::fromString($summary);
-        $this->assertEquals($summary, (string) $summaryObject);
-        $this->assertEquals($summary, $summaryObject->toString());
+        $titleObject = Title::fromString($title);
+        $this->assertEquals($title, (string) $titleObject);
+        $this->assertEquals($title, $titleObject->toString());
     }
 }

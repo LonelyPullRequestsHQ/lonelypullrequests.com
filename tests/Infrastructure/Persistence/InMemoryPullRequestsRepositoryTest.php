@@ -23,7 +23,7 @@ class InMemoryPullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
     public function testAdd()
     {
         $pullRequest = PullRequest::fromArray([
-            'summary' => 'a',
+            'title' => 'a',
             'repositoryName' => 'foo/bar',
             'url' => 'http://www.example.com/',
             'loneliness' => 42

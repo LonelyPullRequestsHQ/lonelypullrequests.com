@@ -18,7 +18,7 @@ class PullRequestTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Assert\InvalidArgumentException
-     * @expectedExceptionMessage Array does not contain an element with key "summary"
+     * @expectedExceptionMessage Array does not contain an element with key "title"
      */
     public function testFailingCreationOnEmptyArray()
     {
@@ -27,13 +27,13 @@ class PullRequestTest extends PHPUnit_Framework_TestCase
 
     public function testInstantiationWithGetters()
     {
-        $summary = 'foobar';
+        $title = 'foobar';
         $repositoryName = 'foo/bar';
         $url = 'https://www.lonelypullrequests.com/';
         $loneliness = 42;
 
         $pullRequest = PullRequest::fromArray(array(
-            'summary' => $summary,
+            'title' => $title,
             'repositoryName' => $repositoryName,
             'url' => $url,
             'loneliness' => $loneliness,
@@ -41,8 +41,8 @@ class PullRequestTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\LonelyPullRequests\Domain\PullRequest', $pullRequest);
 
-        $this->assertInstanceOf('\LonelyPullRequests\Domain\Summary', $pullRequest->summary());
-        $this->assertEquals($summary, $pullRequest->summary()->toString());
+        $this->assertInstanceOf('\LonelyPullRequests\Domain\Title', $pullRequest->title());
+        $this->assertEquals($title, $pullRequest->title()->toString());
 
         $this->assertInstanceOf('\LonelyPullRequests\Domain\RepositoryName', $pullRequest->repositoryName());
         $this->assertEquals($repositoryName, $pullRequest->repositoryName()->toString());

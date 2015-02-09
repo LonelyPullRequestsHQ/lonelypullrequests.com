@@ -4,21 +4,21 @@ namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Typ
 
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use LonelyPullRequests\Domain\Summary;
+use LonelyPullRequests\Domain\Title;
 
 /**
- * Summary type for Doctrine to map the value-object
+ * Title type for Doctrine to map the value-object
  *
  */
-class SummaryType extends StringType
+class TitleType extends StringType
 {
-    const NAME = 'summary';
+    const NAME = 'title';
 
     /**
      * {@inheritdoc}
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        return Summary::fromString($value);
+        return Title::fromString($value);
     }
 
     /**
