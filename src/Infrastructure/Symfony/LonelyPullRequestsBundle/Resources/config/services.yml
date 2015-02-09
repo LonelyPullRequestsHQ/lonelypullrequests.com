@@ -1,3 +1,6 @@
 services:
     lonely_pull_requests.repository.pull_requests:
-        class: LonelyPullRequests\Infrastructure\Persistence\InMemoryPullRequestsRepository
+        class: LonelyPullRequests\Infrastructure\Persistence\DoctrinePullRequestsRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: [LonelyPullRequests\Domain\PullRequest]
