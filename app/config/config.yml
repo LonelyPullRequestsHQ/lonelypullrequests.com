@@ -64,11 +64,11 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    custom_mapping:
+                    LonelyPullRequestsBundle:
                         type: yml
-                        prefix: LonelyPullRequests\Domain\
-                        dir: "%kernel.root_dir%/../src/Domain/"
-                        is_bundle: false
+                        prefix: LonelyPullRequests\Domain
+                        alias: "LonelyPullRequestsBundle"
+                        is_bundle: true
 
 
 # Swiftmailer Configuration

@@ -1,0 +1,24 @@
+LonelyPullRequests\Domain\PullRequest:
+  type: entity
+  repositoryClass: LonelyPullRequests\Infrastructure\Persistence\DoctrinePullRequestsRepository
+  table: pullrequest
+  schema: schema_name # The schema the table lies in, for platforms that support schemas (Optional, >= 2.5)
+  readOnly: false
+  indexes:
+    name_index:
+      columns: [ repositoryName ]
+  id:
+    repositoryName:
+      type: string
+      length: 255
+      unique: true
+  fields:
+    summary:
+      type: string
+      length: 255
+    url:
+      type: string
+      length: 255
+    loneliness:
+      type: integer
+      length: 8

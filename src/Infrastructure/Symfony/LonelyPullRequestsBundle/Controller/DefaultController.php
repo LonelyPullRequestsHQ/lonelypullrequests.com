@@ -17,7 +17,20 @@ class DefaultController extends Controller
         $manager = $doctrine->getEntityManager();
         $pullRequestRepository = $manager->getRepository('LonelyPullRequests\Domain\PullRequest');
         echo '<pre>';
-        print_r($pullRequestRepository);
+
+        $pr = PullRequest::fromArray(
+            [
+                'summary' => 'My great pull request',
+                'repositoryName' => 'LonelyPullRequestsHQ/lonelypullrequests.com',
+                'url' => 'https://github.com/LonelyPullRequestsHQ/lonelypullrequests.com/pull/7',
+                'loneliness' => 50
+            ]
+        );
+
+        //$all = $pullRequestRepository->add($pr);
+        $all = $pullRequestRepository->findAll();
+
+        print_r($all);
         exit;
 
         // Add bogus data
