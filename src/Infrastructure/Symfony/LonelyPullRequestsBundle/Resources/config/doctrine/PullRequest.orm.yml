@@ -9,7 +9,7 @@ LonelyPullRequests\Domain\PullRequest:
       columns: [ repositoryName ]
   id:
     repositoryName:
-      type: string
+      type: repositoryName
       length: 255
       unique: true
   fields:
