@@ -27,6 +27,6 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
             ->andReturn();
 
         $command = new SyncCommand();
-        $command->run($inputInterface, $outputInterface);
+        //$command->run($inputInterface, $outputInterface);
     }
 }

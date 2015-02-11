@@ -11,16 +11,17 @@ use LonelyPullRequests\Domain\Repository\NotificationRepository;
 final class GithubNotificationRepository implements NotificationRepository
 {
     /**
-     * @var \Github\Api\Activity\Notification
+     * @var \Github\Api\Notification
      */
     private $notificationService;
 
     /**
-     * @param string $apiKey
+     * @param \Github\Client $client
+     * @param string         $apiKey
+     *
      */
-    public function __construct($apiKey)
+    public function __construct(Client $client, $apiKey)
     {
-        $client = new Client();
         $client->authenticate($apiKey, null, Client::AUTH_HTTP_TOKEN);
 
         $this->notificationService = $client->notifications();
