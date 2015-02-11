@@ -22,10 +22,12 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/github-api": "~1.4",
-        "beberlei/assert": "~2.3"
+        "beberlei/assert": "~2.3",
+        "mockery/mockery": "0.9.*"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "~4.5"
     },
     "scripts": {
         "post-root-package-install": [
