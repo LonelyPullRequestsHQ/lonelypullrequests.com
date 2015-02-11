@@ -2,14 +2,14 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Controller;
 
-use LonelyPullRequests\Infrastructure\Persistence\DoctrinePullRequestsRepository;
+use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
     public function indexAction()
     {
-        /** @var DoctrinePullRequestsRepository $repository */
+        /** @var PullRequestsRepository $repository */
         $repository = $this->get('lonely_pull_requests.repository.pull_requests');
 
         return $this->render(

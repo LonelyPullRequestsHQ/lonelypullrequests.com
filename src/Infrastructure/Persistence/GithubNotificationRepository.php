@@ -2,6 +2,8 @@
 
 namespace LonelyPullRequests\Infrastructure\Persistence;
 
+use Assert\Assertion as Ensure;
+use Github\Client;
 use LonelyPullRequests\Domain\Notification;
 use LonelyPullRequests\Domain\Notifications;
 use LonelyPullRequests\Domain\Repository\NotificationRepository;
@@ -9,23 +11,19 @@ use LonelyPullRequests\Domain\Repository\NotificationRepository;
 final class GithubNotificationRepository implements NotificationRepository
 {
     /**
-     * @var Notifications
+     * @var \Github\Api\Activity\Notification
      */
-    private $notifications;
-
-    public function __construct()
-    {
-        $this->notifications = new Notifications();
-    }
+    private $notificationService;
 
     /**
-     * @param Notification $pullRequest
-     *
-     * @return Notifications
+     * @param string $apiKey
      */
-    public function add(Notification $notification)
+    public function __construct($apiKey)
     {
-        $this->notifications = $this->notifications->add($notification);
+        $client = new Client();
+        $client->authenticate($apiKey, null, Client::AUTH_HTTP_TOKEN);
+
+        $this->notificationService = $client->notifications();
     }
 
     /**
@@ -33,6 +31,52 @@ final class GithubNotificationRepository implements NotificationRepository
      */
     public function all()
     {
-        return $this->notifications;
+        $notifications = array();
+
+        foreach($this->notificationService->all() as $notificationStruct) {
+            $notification = $this->createNotificationFromStruct($notificationStruct);
+            if($notification instanceof Notification) {
+                $notifications[] = $notification;
+            }
+        }
+
+        return new Notifications($notifications);
+    }
+
+    /**
+     * @param \DateTimeInterface $since
+     */
+    public function markRead(\DateTimeInterface $since)
+    {
+        $this->notificationService->markRead($since);
+    }
+
+    /**
+     * @param array $notificationStruct
+     *
+     * @return Notification|null
+     */
+    private function createNotificationFromStruct($notificationStruct)
+    {
+        Ensure::keyExists($notificationStruct, 'updated_at');
+
+        Ensure::keyExists($notificationStruct, 'repository');
+        Ensure::keyExists($notificationStruct['repository'], 'full_name');
+
+        Ensure::keyExists($notificationStruct, 'subject');
+        Ensure::keyExists($notificationStruct['subject'], 'title');
+        Ensure::keyExists($notificationStruct['subject'], 'url');
+        Ensure::keyExists($notificationStruct['subject'], 'type');
+
+        if($notificationStruct['subject']['type'] !== 'PullRequest') {
+            return null;
+        }
+
+        return Notification::fromArray([
+            'repositoryName' => $notificationStruct['repository']['full_name'],
+            'title' => $notificationStruct['subject']['title'],
+            'url' => $notificationStruct['subject']['url'],
+            'eventDateTime' => $notificationStruct['updated_at'],
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
 use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
+use LonelyPullRequests\Domain\RepositoryName;
 
 final class DoctrinePullRequestsRepository extends EntityRepository implements PullRequestsRepository
 {
@@ -21,6 +22,16 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
         $em->flush();
 
         return $this->all();
+    }
+
+    /**
+     * {{@inheritdoc}}
+     */
+    public function getByRepositoryName(RepositoryName $repositoryName)
+    {
+        return $this->findOneBy([
+            'repositoryName' => $repositoryName->toString(),
+        ]);
     }
 
     /**

@@ -2,12 +2,17 @@
 
 namespace LonelyPullRequests\Domain\Repository;
 
-use LonelyPullRequests\Domain\Notification;
+use LonelyPullRequests\Domain\Notifications;
 
 interface NotificationRepository
 {
     /**
-     * @return Notification
+     * @return Notifications
      */
     public function all();
+
+    /**
+     * @param \DateTimeInterface $since
+     */
+    public function markRead(\DateTimeInterface $since);
 }
