@@ -6,4 +6,7 @@ services:
         arguments: [LonelyPullRequests\Domain\PullRequest]
     lonely_pull_requests.repository.notification:
         class: LonelyPullRequests\Infrastructure\Persistence\GithubNotificationRepository
-        arguments: ['%github_api_key%']
+        arguments: [@github_client, '%github_api_key%']
+    github_client:
+        class: Github\Client
+
