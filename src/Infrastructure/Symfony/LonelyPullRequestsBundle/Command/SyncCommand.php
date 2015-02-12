@@ -9,6 +9,7 @@ use LonelyPullRequests\Domain\Repository\NotificationRepository;
 use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -19,12 +20,18 @@ class SyncCommand extends ContainerAwareCommand
         $this
             ->setName('pullrequests:sync')
             ->setDescription('Sync all pullrequests')
-        ;
+
+            ->addOption(
+                'commit',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the notifications will be cleared at source'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $commit = false;
+        $commit = $input->getOption('commit');
 
         // Figure this out for new ones
         $loneliness = Loneliness::fromInteger(0);
@@ -46,12 +53,7 @@ class SyncCommand extends ContainerAwareCommand
             $output->writeln("Parsing notification for URL: " . $notification->url()->toString());
             /** @var Notification $notification */
 
-            $pullRequest = $pullRequestRepository->getByRepositoryName($notification->repositoryName());
-            if($pullRequest === null) {
-                $pullRequest = PullRequest::create($notification->title(), $notification->repositoryName(), $notification->url(), $loneliness);
-                $output->writeln("\tCreating PullRequest object for URL: " . $notification->url()->toString());
-            }
-
+            $pullRequest = $notification->pullRequest($loneliness);
             $pullRequestRepository->add($pullRequest);
 
             // Update latest entry

@@ -93,4 +93,14 @@ final class Notification
     {
         return $this->eventDateTime;
     }
+
+    /**
+     * @param Loneliness $loneliness
+     *
+     * @return PullRequest
+     */
+    public function pullRequest(Loneliness $loneliness)
+    {
+        return PullRequest::create($this->title(), $this->repositoryName(), $this->url(), $loneliness);
+    }
 }
