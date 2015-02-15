@@ -78,10 +78,14 @@ final class GithubNotificationRepository implements NotificationRepository
             return null;
         }
 
+        // Translate Github API url to public website url
+        $url = str_replace('https://api.github.com/repos/', 'https://github.com/', $notificationStruct['subject']['url']);
+        $url = str_replace('/pulls/', '/pull/', $url);
+
         return Notification::fromArray([
             'repositoryName' => $notificationStruct['repository']['full_name'],
             'title' => $notificationStruct['subject']['title'],
-            'url' => $notificationStruct['subject']['url'],
+            'url' => $url,
             'eventDateTime' => $notificationStruct['updated_at'],
         ]);
     }
