@@ -65,9 +65,5 @@ class SyncCommand extends ContainerAwareCommand
         if($commit && $lastEventDateTime !== null) {
             $notificationRepository->markRead($lastEventDateTime);
         }
-
-        $output->writeln('');
-        $output->writeln("Mayday! Mayday! We are syncing! We are syncing!");
-        $output->writeln('');
     }
 }
