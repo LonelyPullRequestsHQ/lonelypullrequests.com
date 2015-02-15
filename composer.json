@@ -21,7 +21,7 @@
         "sensio/distribution-bundle": "~3.0.12",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "knplabs/github-api": "~1.4",
+        "knplabs/github-api": "dev-addNotificationsApi as 1.4.1",
         "beberlei/assert": "~2.3",
         "sensio/generator-bundle": "~2.3"
     },
@@ -63,5 +63,11 @@
         "branch-alias": {
             "dev-master": "2.6-dev"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/dennisdegreef/php-github-api"
+        }
+    ]
 }

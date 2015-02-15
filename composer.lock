@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c080d042841b8e6e1e8141cbdac0b9d7",
+    "hash": "4218b423c9b3870c3027fdb36cd52be0",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -963,16 +963,16 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "1.4.1",
+            "version": "dev-addNotificationsApi",
             "source": {
                 "type": "git",
-                "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "c4fb5fe66df44efa83a7236c3e18dca557649217"
+                "url": "https://github.com/dennisdegreef/php-github-api.git",
+                "reference": "49488d87ea6e33fdf28b7b669144a501169aa317"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/c4fb5fe66df44efa83a7236c3e18dca557649217",
-                "reference": "c4fb5fe66df44efa83a7236c3e18dca557649217",
+                "url": "https://api.github.com/repos/dennisdegreef/php-github-api/zipball/49488d87ea6e33fdf28b7b669144a501169aa317",
+                "reference": "49488d87ea6e33fdf28b7b669144a501169aa317",
                 "shasum": ""
             },
             "require": {
@@ -989,7 +989,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
@@ -997,19 +997,18 @@
                     "Github\\": "lib/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
                     "name": "Thibault Duplessis",
                     "email": "thibault.duplessis@gmail.com",
                     "homepage": "http://ornicar.github.com"
-                },
-                {
-                    "name": "KnpLabs Team",
-                    "homepage": "http://knplabs.com"
                 }
             ],
             "description": "GitHub API v3 client",
@@ -1020,7 +1019,10 @@
                 "gist",
                 "github"
             ],
-            "time": "2014-12-22 23:59:03"
+            "support": {
+                "source": "https://github.com/dennisdegreef/php-github-api/tree/addNotificationsApi"
+            },
+            "time": "2015-02-13 09:44:48"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -2838,9 +2840,18 @@
             "time": "2014-12-15 14:25:24"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.4.1",
+            "alias_normalized": "1.4.1.0",
+            "version": "dev-addNotificationsApi",
+            "package": "knplabs/github-api"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "knplabs/github-api": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
