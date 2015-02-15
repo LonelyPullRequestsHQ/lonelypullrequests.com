@@ -3,6 +3,7 @@
 namespace LonelyPullRequests\Infrastructure\Persistence;
 
 use Assert\Assertion as Ensure;
+use DateTime;
 use Github\Client;
 use LonelyPullRequests\Domain\Notification;
 use LonelyPullRequests\Domain\Notifications;
@@ -49,6 +50,10 @@ final class GithubNotificationRepository implements NotificationRepository
      */
     public function markRead(\DateTimeInterface $since)
     {
+        // NotificationService is PHP 5.3 compatible, so DateTime is needed
+        if(!($since instanceof DateTime)) {
+            $since = new DateTime($since->format(DateTime::ISO8601));
+        }
         $this->notificationService->markRead($since);
     }
 
