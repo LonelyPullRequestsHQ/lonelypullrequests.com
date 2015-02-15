@@ -18,7 +18,7 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
     public function add(PullRequest $pullRequest)
     {
         $em = $this->getEntityManager();
-        $em->persist($pullRequest);
+        $em->merge($pullRequest);
         $em->flush();
 
         return $this->all();

@@ -32,7 +32,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getUnitOfWork')
             ->andReturn($unitOfWork);
         $entityManager
-            ->shouldReceive('persist')
+            ->shouldReceive('merge')
             ->andReturnNull();
         $entityManager
             ->shouldReceive('flush')
@@ -80,7 +80,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
 
         $this->entityPersister
             ->shouldReceive('loadAll')
-            ->andReturn(array());
+            ->andReturn(array())->byDefault();
 
         $this->assertEmpty($this->repository->all());
 
@@ -90,7 +90,26 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('loadAll')
             ->andReturn(array($pullRequest));
 
-        // TODO: For some reason, the shouldReceive('loadAll') is not overwritten with new expected array
-        //$this->assertNotEmpty($this->repository->all());
+        $this->assertNotEmpty($this->repository->all());
+    }
+
+    public function testPersistUpsert()
+    {
+        $testStruct = [
+            'title' => 'a',
+            'repositoryName' => 'foo/bar',
+            'url' => 'http://www.example.com/',
+            'loneliness' => 42
+        ];
+
+        $this->entityPersister
+            ->shouldReceive('loadAll')
+            ->andReturn($this->objects);
+
+        $pullRequest = PullRequest::fromArray($testStruct);
+        $this->repository->add($pullRequest);
+
+        $pullRequest = PullRequest::fromArray($testStruct);
+        $this->repository->add($pullRequest);
     }
 }
