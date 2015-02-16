@@ -30,8 +30,6 @@ checks:
         single_namespace_per_use: true
         simplify_boolean_return: true
         security_vulnerabilities: true
-        scope_indentation:
-            spaces_per_level: '4'
         return_doc_comments: true
         require_scope_for_properties: true
         require_scope_for_methods: true
