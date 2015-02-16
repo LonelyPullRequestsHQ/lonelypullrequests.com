@@ -45,6 +45,6 @@ final class Notifications implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return sizeof($this->notifications);
+        return count($this->notifications);
     }
 }
