@@ -33,7 +33,7 @@ final class PullRequest
         Ensure::keyExists($array, 'url');
         Ensure::keyExists($array, 'loneliness');
 
-        return PullRequest::create(
+        return self::create(
             Title::fromString($array['title']),
             RepositoryName::fromString($array['repositoryName']),
             Url::fromString($array['url']),
@@ -43,7 +43,7 @@ final class PullRequest
 
     public static function create(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
-        return new PullRequest($title, $repositoryName, $url, $loneliness);
+        return new self($title, $repositoryName, $url, $loneliness);
     }
 
     private function __construct(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
