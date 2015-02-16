@@ -33,6 +33,24 @@ class LonelinessTypeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('loneliness', (string) $this->type);
     }
 
+    public function testBindingType()
+    {
+        $this->assertEquals(\PDO::PARAM_INT, $this->type->getBindingType());
+    }
+
+    public function testSqlDeclaration()
+    {
+        $fieldDeclaration = [
+            'foo' => 'bar',
+        ];
+
+        $this->platform
+            ->shouldReceive('getIntegerTypeDeclarationSQL')
+            ->withArgs([$fieldDeclaration]);
+
+        $this->type->getSQLDeclaration($fieldDeclaration, $this->platform);
+    }
+
     public function testConvertToDatabaseValue()
     {
         $lonelinessScore = 42;

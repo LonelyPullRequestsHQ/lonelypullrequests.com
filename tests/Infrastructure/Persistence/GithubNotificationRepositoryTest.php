@@ -89,4 +89,15 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
 
         $this->repository->markRead($dateTime);
     }
+
+    public function testMarkReadWithDateTimeImmutable()
+    {
+        $dateTime = new \DateTimeImmutable('now');
+
+        $this->notificationService
+            ->shouldReceive('markRead')
+            ->withAnyArgs();
+
+        $this->repository->markRead($dateTime);
+    }
 }

@@ -26,14 +26,7 @@ class RepositoryNameType extends StringType
      * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        //Ensure::isInstanceOf($value, '\LonelyPullRequests\Domain\RepositoryName');
-        // TODO: Something is going wrong, and being passed the wrong way. HACK for now to test major functionality
-        //       Alcohol may have affected this decision.
-        if($value instanceof RepositoryName) {
-            return $value->toString();
-        } else {
-            return $value;
-        }
+        Ensure::isInstanceOf($value, '\LonelyPullRequests\Domain\RepositoryName');
 
         return $value->toString();
     }

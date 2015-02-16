@@ -42,7 +42,7 @@ class RepositoryNameTypeTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(gettype($databaseValue) === 'string');
         $this->assertSame($databaseValue, $repositoryNameName);
 
-        $databaseValue = $this->type->convertToDatabaseValue($repositoryNameName, $this->platform);
+        $databaseValue = $this->type->convertToDatabaseValue($repositoryName, $this->platform);
         $this->assertTrue(gettype($databaseValue) === 'string');
         $this->assertSame($databaseValue, $repositoryNameName);
 
