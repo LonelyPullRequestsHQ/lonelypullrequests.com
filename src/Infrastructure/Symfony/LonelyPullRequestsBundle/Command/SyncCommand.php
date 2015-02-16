@@ -50,7 +50,7 @@ class SyncCommand extends ContainerAwareCommand
         // Parse notifications for new pull requests
         $notifications = $notificationRepository->all();
         foreach($notifications as $notification) {
-            $output->writeln("Parsing notification for URL: " . $notification->url()->toString());
+            $output->writeln('Parsing notification for URL: ' . $notification->url()->toString());
             /** @var Notification $notification */
 
             $pullRequest = $notification->pullRequest($loneliness);
