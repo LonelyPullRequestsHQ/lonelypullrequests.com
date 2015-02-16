@@ -6,16 +6,15 @@ LonelyPullRequests\Domain\PullRequest:
   readOnly: false
   indexes:
     name_index:
-      columns: [ repositoryName ]
+      columns: [ repositoryName, title ]
   id:
     repositoryName:
       type: repositoryName
       length: 255
-      unique: true
-  fields:
     title:
       type: title
       length: 255
+  fields:
     url:
       type: url
       length: 255

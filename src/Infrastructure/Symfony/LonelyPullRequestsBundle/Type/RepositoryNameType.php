@@ -2,6 +2,7 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Type;
 
+use Assert\Assertion as Ensure;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use LonelyPullRequests\Domain\RepositoryName;
@@ -24,8 +25,9 @@ class RepositoryNameType extends StringType
     /**
      * {@inheritdoc}
      */
-
     public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+        Ensure::isInstanceOf($value, '\LonelyPullRequests\Domain\RepositoryName');
+
         return $value->toString();
     }
 

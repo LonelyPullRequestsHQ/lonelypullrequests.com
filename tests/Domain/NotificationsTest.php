@@ -28,7 +28,12 @@ class NotificationsTest extends PHPUnit_Framework_TestCase
     public function testImmutability()
     {
         $notifications = new Notifications();
-        $notification = Notification::fromArray([]);
+        $notification = Notification::fromArray([
+            'repositoryName' => 'foo/bar',
+            'title' => 'Title',
+            'url' => 'http://www.example.com/',
+            'eventDateTime' => strftime("%Y-%m-%d %H:%M:%S", time()),
+        ]);
 
         $newNotifications = $notifications->add($notification);
         $anotherNotifications = $notifications->add($notification);

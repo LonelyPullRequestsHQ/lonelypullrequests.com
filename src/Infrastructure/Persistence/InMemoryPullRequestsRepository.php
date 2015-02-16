@@ -5,6 +5,7 @@ namespace LonelyPullRequests\Infrastructure\Persistence;
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
 use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
+use LonelyPullRequests\Domain\RepositoryName;
 
 final class InMemoryPullRequestsRepository implements PullRequestsRepository
 {
@@ -27,6 +28,21 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
     {
         $this->pullRequests = $this->pullRequests->add($pullRequest);
     }
+
+    /**
+     * {{@inheritdoc}}
+     */
+    public function getByRepositoryName(RepositoryName $repositoryName)
+    {
+        foreach($this->pullRequests as $pullRequest) {
+            if($pullRequest->repositoryName() == $repositoryName) {
+                return $pullRequest;
+            }
+        }
+
+        return null;
+    }
+
 
     /**
      * @return PullRequests
