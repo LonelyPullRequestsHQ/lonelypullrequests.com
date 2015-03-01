@@ -52,4 +52,29 @@ class NotificationTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\DateTimeInterface', $notification->eventDateTime());
     }
+
+    public function testConvertionToPullRequest()
+    {
+        $title = 'foobar';
+        $repositoryName = 'foo/bar';
+        $url = 'https://www.lonelypullrequests.com/';
+        $dateTime = 'now';
+        $lonelinessScore = 31337;
+        $loneliness = Loneliness::fromInteger($lonelinessScore);
+
+        $notification = Notification::fromArray(array(
+            'title' => $title,
+            'repositoryName' => $repositoryName,
+            'url' => $url,
+            'eventDateTime' => $dateTime
+        ));
+
+        $pullRequest = $notification->pullRequest($loneliness);
+
+        $this->assertSame($title, $pullRequest->title()->toString());
+        $this->assertSame($repositoryName, $pullRequest->repositoryName()->toString());
+        $this->assertSame($url, $pullRequest->url()->toString());
+        $this->assertSame($lonelinessScore, $pullRequest->loneliness()->toInteger());
+    }
+
 }

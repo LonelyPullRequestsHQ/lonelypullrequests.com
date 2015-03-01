@@ -22,7 +22,7 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
         $outputInterface = Mockery::mock('Symfony\Component\Console\Output\OutputInterface');
         $container = Mockery::mock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $pullRequestRepository = Mockery::mock('LonelyPullRequests\Domain\Repository\PullRequestRepository');
+        $pullRequestRepository = Mockery::mock('LonelyPullRequests\Domain\Repository\PullRequestsRepository');
         $notificationRepository = Mockery::mock('LonelyPullRequests\Domain\Repository\NotificationRepository');
 
         $inputInterface
