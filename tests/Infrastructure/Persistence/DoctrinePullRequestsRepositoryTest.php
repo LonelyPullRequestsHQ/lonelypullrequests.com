@@ -52,7 +52,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\LonelyPullRequests\Domain\PullRequests', $pullRequests);
     }
 
-    public function testGetByName()
+    public function testGetByRepositoryNameTitle()
     {
         $pullRequest = PullRequest::fromArray([
             'title' => 'foobarbaz',
@@ -65,7 +65,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('load')
             ->andReturn($pullRequest);
 
-        $pullRequests = $this->repository->getByRepositoryName($pullRequest->repositoryName());
+        $pullRequests = $this->repository->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title());
         $this->assertInstanceOf('\LonelyPullRequests\Domain\PullRequest', $pullRequests);
     }
 
