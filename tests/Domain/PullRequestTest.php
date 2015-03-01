@@ -53,4 +53,44 @@ class PullRequestTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\LonelyPullRequests\Domain\Loneliness', $pullRequest->loneliness());
         $this->assertEquals($loneliness, $pullRequest->loneliness()->toString());
     }
+
+    public function testComparison()
+    {
+        $url = 'https://www.lonelypullrequests.com/';
+        $loneliness = 42;
+
+        $p1 = PullRequest::fromArray(array(
+            'title' => 'foo',
+            'repositoryName' => 'foo/bar',
+            'url' => $url,
+            'loneliness' => $loneliness,
+        ));
+
+        $p2 = PullRequest::fromArray(array(
+            'title' => 'bar',
+            'repositoryName' => 'bar/foo',
+            'url' => $url,
+            'loneliness' => $loneliness,
+        ));
+
+        $p3 = PullRequest::fromArray(array(
+            'title' => 'foo',
+            'repositoryName' => 'foo/bar',
+            'url' => $url,
+            'loneliness' => $loneliness,
+        ));
+
+        $this->assertTrue($p1->compareTo($p1));
+        $this->assertFalse($p1->compareTo($p2));
+        $this->assertTrue($p1->compareTo($p3));
+
+        $this->assertFalse($p2->compareTo($p1));
+        $this->assertTrue($p2->compareTo($p2));
+        $this->assertFalse($p2->compareTo($p3));
+
+        $this->assertTrue($p3->compareTo($p1));
+        $this->assertFalse($p3->compareTo($p2));
+        $this->assertTrue($p3->compareTo($p3));
+
+    }
 }

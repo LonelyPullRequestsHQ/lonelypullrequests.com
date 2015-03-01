@@ -31,7 +31,7 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
      */
     public function has(PullRequest $pullRequest)
     {
-        return ($this->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title()) === null);
+        return ($this->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title()) !== null);
     }
 
     /**
