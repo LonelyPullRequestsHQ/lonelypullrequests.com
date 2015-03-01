@@ -34,9 +34,6 @@ class SyncCommand extends ContainerAwareCommand
     {
         $commit = (bool) $input->getOption('commit');
 
-        // Figure this out for new ones
-        //$loneliness = Loneliness::fromInteger(0);
-
         /** @var ContainerInterface $container */
         $container = $this->getContainer();
 
