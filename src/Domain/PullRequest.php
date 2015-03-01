@@ -85,4 +85,22 @@ final class PullRequest
     {
         return $this->loneliness;
     }
+
+    /**
+     * @return string
+     */
+    public function identifier()
+    {
+        return $this->repositoryName() . '-' . $this->title();
+    }
+
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return bool
+     */
+    public function compareTo(PullRequest $pullRequest)
+    {
+        return $this->identifier() === $pullRequest->identifier();
+    }
 }
