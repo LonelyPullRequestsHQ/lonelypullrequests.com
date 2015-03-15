@@ -36,7 +36,8 @@ class NotificationTest extends PHPUnit_Framework_TestCase
             'title' => $title,
             'repositoryName' => $repositoryName,
             'url' => $url,
-            'eventDateTime' => $dateTime
+            'eventDateTime' => $dateTime,
+            'pullRequestState' => PullRequestState::STATE_OPEN
         ));
 
         $this->assertInstanceOf('\LonelyPullRequests\Domain\Notification', $notification);
@@ -66,7 +67,8 @@ class NotificationTest extends PHPUnit_Framework_TestCase
             'title' => $title,
             'repositoryName' => $repositoryName,
             'url' => $url,
-            'eventDateTime' => $dateTime
+            'eventDateTime' => $dateTime,
+            'pullRequestState' => PullRequestState::STATE_OPEN
         ));
 
         $pullRequest = $notification->pullRequest($loneliness);
@@ -75,6 +77,7 @@ class NotificationTest extends PHPUnit_Framework_TestCase
         $this->assertSame($repositoryName, $pullRequest->repositoryName()->toString());
         $this->assertSame($url, $pullRequest->url()->toString());
         $this->assertSame($lonelinessScore, $pullRequest->loneliness()->toInteger());
+        $this->assertSame(PullRequestState::STATE_OPEN, (string) $notification->pullRequestState());
     }
 
 }

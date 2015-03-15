@@ -89,6 +89,10 @@ final class GithubNotificationRepository implements NotificationRepository
         // Retrieve more information about the pullrequest
         preg_match('#repos/(?P<username>.*)/(?P<repository>.*)/pulls/(?P<issueId>\d+)$#', $notificationStruct['subject']['url'], $matches);
 
+        Ensure::keyExists($matches, 'username');
+        Ensure::keyExists($matches, 'repository');
+        Ensure::keyExists($matches, 'issueId');
+
         $pullRequestInformation = $this->pullRequestService->show($matches['username'], $matches['repository'], $matches['issueId']);
         $pullRequestState = $pullRequestInformation['state'];
 

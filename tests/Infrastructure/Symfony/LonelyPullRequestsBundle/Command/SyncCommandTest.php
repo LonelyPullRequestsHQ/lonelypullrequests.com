@@ -2,8 +2,10 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Command;
 
+use LonelyPullRequests\Domain\Loneliness;
 use LonelyPullRequests\Domain\Notification;
 use LonelyPullRequests\Domain\Notifications;
+use LonelyPullRequests\Domain\PullRequestState;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -34,6 +36,7 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
         $inputInterface
             ->shouldReceive('validate')
             ->andReturn();
+
         $inputInterface
             ->shouldReceive('getOption')
             ->withArgs(['commit'])
@@ -66,8 +69,44 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
     {
         $this->notificationRepository
             ->shouldReceive('all')
-            ->withNoArgs()
             ->andReturn(new Notifications());
+        $this->inputInterface
+            ->shouldReceive('getOption')
+            ->withArgs(['all'])
+            ->andReturn(false);
+
+        $this->runCommand();
+    }
+
+    public function testSyncCommandWithoutNotificationButChangedState()
+    {
+        $notification = Notification::fromArray(array(
+            'title' => 'foobar',
+            'repositoryName' => 'foo/bar',
+            'url' => 'http://www.example.com/',
+            'eventDateTime' => 'now',
+            'pullRequestState' => PullRequestState::STATE_CLOSED
+        ));
+
+        $this->inputInterface
+            ->shouldReceive('getOption')
+            ->withArgs(['commit'])
+            ->andReturn(true);
+
+        $this->inputInterface
+            ->shouldReceive('getOption')
+            ->withArgs(['all'])
+            ->andReturn(true);
+
+        $this->pullRequestRepository
+            ->shouldReceive('remove');
+
+        $this->notificationRepository
+            ->shouldReceive('all')
+            ->andReturn(new Notifications([$notification]));
+
+        $this->notificationRepository
+            ->shouldReceive('markRead');
 
         $this->runCommand();
     }
@@ -76,15 +115,20 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
     {
         $this->notificationRepository
             ->shouldReceive('all')
-            ->withNoArgs()
             ->andReturn(new Notifications([
                 Notification::fromArray(array(
                     'title' => 'foobar',
                     'repositoryName' => 'foo/bar',
                     'url' => 'http://www.example.com/',
-                    'eventDateTime' => 'now'
+                    'eventDateTime' => 'now',
+                    'pullRequestState' => PullRequestState::STATE_OPEN
                 ))
         ]));
+
+        $this->inputInterface
+            ->shouldReceive('getOption')
+            ->withArgs(['all'])
+            ->andReturn(true);
 
         $this->notificationRepository
             ->shouldReceive('markRead')

@@ -33,6 +33,7 @@ class NotificationsTest extends PHPUnit_Framework_TestCase
             'title' => 'Title',
             'url' => 'http://www.example.com/',
             'eventDateTime' => strftime("%Y-%m-%d %H:%M:%S", time()),
+            'pullRequestState' => PullRequestState::STATE_OPEN,
         ]);
 
         $newNotifications = $notifications->add($notification);
