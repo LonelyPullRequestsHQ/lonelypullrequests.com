@@ -4,6 +4,7 @@ namespace LonelyPullRequests\Infrastructure\Service;
 
 use LonelyPullRequests\Domain\Loneliness;
 use LonelyPullRequests\Domain\Notification;
+use LonelyPullRequests\Domain\PullRequestState;
 use LonelyPullRequests\Domain\Repository\NotificationRepository;
 use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\Service\SyncService;
@@ -60,12 +61,13 @@ final class PullRequestSyncService implements SyncService
      * Synchronizes the notification repository with the pullrequest repository
      *
      * @param bool $commit
+     * @param bool $includingRead
      *
      * @return void
      */
-    public function sync($commit = false)
+    public function sync($commit = false, $includingRead = false)
     {
-        $notifications = $this->notificationRepository()->all();
+        $notifications = $this->notificationRepository()->all($includingRead);
 
         /** @var Notification $notification */
         foreach($notifications as $notification) {
@@ -81,7 +83,12 @@ final class PullRequestSyncService implements SyncService
     private function syncNotification(Notification $notification)
     {
         $pullRequest = $notification->pullRequest(Loneliness::fromInteger(0));
-        $this->pullRequestsRepository()->add($pullRequest);
+
+        if($notification->pullRequestState()->is(PullRequestState::STATE_OPEN)) {
+            $this->pullRequestsRepository()->add($pullRequest);
+        } else {
+            $this->pullRequestsRepository()->remove($pullRequest);
+        }
 
         $this->lastParsedNotification = $notification;
     }

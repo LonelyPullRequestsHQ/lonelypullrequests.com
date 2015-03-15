@@ -43,8 +43,11 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
     {
         $entity = $this->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title());
         if($entity !== null) {
-            $this->getEntityManager()->remove($entity);
+            $entityManager = $this->getEntityManager();
+            $entityManager->remove($entity);
+            $entityManager->flush();
         }
+
         return true;
     }
 
@@ -54,8 +57,8 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
     public function getByRepositoryNameTitle(RepositoryName $repositoryName, Title $title)
     {
         return $this->findOneBy([
-            'repositoryName' => $repositoryName->toString(),
-            'title' => $title->toString(),
+            'repositoryName' => $repositoryName,
+            'title' => $title,
         ]);
     }
 
