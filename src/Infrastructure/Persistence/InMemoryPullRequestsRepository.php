@@ -48,6 +48,7 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
     public function remove(PullRequest $pullRequest)
     {
         $this->pullRequests = $this->pullRequests->remove($pullRequest);
+
         return true;
     }
 
