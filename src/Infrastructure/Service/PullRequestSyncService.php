@@ -84,7 +84,7 @@ final class PullRequestSyncService implements SyncService
     {
         $pullRequest = $notification->pullRequest(Loneliness::fromInteger(0));
 
-        if($notification->pullRequestState()->is(PullRequestState::STATE_OPEN)) {
+        if($notification->pullRequestState()->equals(PullRequestState::STATE_OPEN)) {
             $this->pullRequestsRepository()->add($pullRequest);
         } else {
             $this->pullRequestsRepository()->remove($pullRequest);

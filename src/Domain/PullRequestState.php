@@ -27,15 +27,20 @@ final class PullRequestState
     const STATE_CLOSED = 'closed';
 
     /**
+     * @var string $state
+     */
+    private $state;
+
+    /**
      * @param string $state
      */
     private function __construct($state)
     {
-        Ensure::string($state, "Pull request state is not of type string");
+        Ensure::string($state, 'Pull request state is not of type string');
         Ensure::inArray($state, [
             self::STATE_OPEN,
             self::STATE_CLOSED,
-        ], "Unknown pull request state");
+        ], 'Unknown pull request state');
 
         $this->state = $state;
     }
@@ -73,7 +78,7 @@ final class PullRequestState
      *
      * @return bool
      */
-    public function is($pullRequestState)
+    public function equals($pullRequestState)
     {
         return self::fromString($pullRequestState)->toString() === $this->toString();
     }

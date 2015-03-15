@@ -4,8 +4,8 @@ namespace LonelyPullRequests\Infrastructure\Persistence;
 
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
-use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\Title;
 
 final class InMemoryPullRequestsRepository implements PullRequestsRepository
@@ -15,6 +15,9 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
      */
     private $pullRequests;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->pullRequests = new PullRequests();

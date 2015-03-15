@@ -5,8 +5,8 @@ namespace LonelyPullRequests\Infrastructure\Persistence;
 use Doctrine\ORM\EntityRepository;
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
-use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\Title;
 
 final class DoctrinePullRequestsRepository extends EntityRepository implements PullRequestsRepository
