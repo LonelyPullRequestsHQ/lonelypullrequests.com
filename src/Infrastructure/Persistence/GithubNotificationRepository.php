@@ -35,9 +35,9 @@ final class GithubNotificationRepository implements NotificationRepository
     {
         $notifications = array();
 
-        foreach($this->notificationService->all() as $notificationStruct) {
+        foreach ($this->notificationService->all() as $notificationStruct) {
             $notification = $this->createNotificationFromStruct($notificationStruct);
-            if($notification instanceof Notification) {
+            if ($notification instanceof Notification) {
                 $notifications[] = $notification;
             }
         }
@@ -51,7 +51,7 @@ final class GithubNotificationRepository implements NotificationRepository
     public function markRead(\DateTimeInterface $since)
     {
         // NotificationService is PHP 5.3 compatible, so DateTime is needed
-        if(!($since instanceof DateTime)) {
+        if (!($since instanceof DateTime)) {
             $since = new DateTime($since->format(DateTime::ISO8601));
         }
         $this->notificationService->markRead($since);
@@ -74,7 +74,7 @@ final class GithubNotificationRepository implements NotificationRepository
         Ensure::keyExists($notificationStruct['subject'], 'url');
         Ensure::keyExists($notificationStruct['subject'], 'type');
 
-        if($notificationStruct['subject']['type'] !== 'PullRequest') {
+        if ($notificationStruct['subject']['type'] !== 'PullRequest') {
             return null;
         }
 

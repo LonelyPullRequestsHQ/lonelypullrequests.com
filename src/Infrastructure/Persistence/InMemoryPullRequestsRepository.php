@@ -34,8 +34,8 @@ final class InMemoryPullRequestsRepository implements PullRequestsRepository
      */
     public function getByRepositoryName(RepositoryName $repositoryName)
     {
-        foreach($this->pullRequests as $pullRequest) {
-            if($pullRequest->repositoryName() == $repositoryName) {
+        foreach ($this->pullRequests as $pullRequest) {
+            if ($pullRequest->repositoryName() == $repositoryName) {
                 return $pullRequest;
             }
         }

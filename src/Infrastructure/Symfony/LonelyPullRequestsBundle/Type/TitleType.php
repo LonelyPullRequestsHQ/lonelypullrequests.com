@@ -17,7 +17,8 @@ class TitleType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform)
+    {
         return Title::fromString($value);
     }
 
@@ -25,14 +26,16 @@ class TitleType extends StringType
      * {@inheritdoc}
      */
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    {
         return $value->toString();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return self::NAME;
     }
 
