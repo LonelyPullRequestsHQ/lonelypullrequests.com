@@ -23,8 +23,9 @@ class LonelinessType extends Type
      *
      * @return Loneliness The PHP representation of the value.
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
-        if(ctype_digit($value)) {
+    public function convertToPHPValue($value, AbstractPlatform $platform)
+    {
+        if (ctype_digit($value)) {
             $value = (int) $value;
         }
 
@@ -48,7 +49,8 @@ class LonelinessType extends Type
      *
      * @return int The database representation of the value.
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    {
         /** @var \LonelyPullRequests\Domain\Loneliness $value */
         return $value->toInteger();
     }
@@ -64,7 +66,8 @@ class LonelinessType extends Type
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return self::NAME;
     }
 

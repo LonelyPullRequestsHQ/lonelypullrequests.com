@@ -49,7 +49,7 @@ class SyncCommand extends ContainerAwareCommand
 
         // Parse notifications for new pull requests
         $notifications = $notificationRepository->all();
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
             $output->writeln('Parsing notification for URL: ' . $notification->url()->toString());
             /** @var Notification $notification */
 
@@ -57,12 +57,12 @@ class SyncCommand extends ContainerAwareCommand
             $pullRequestRepository->add($pullRequest);
 
             // Update latest entry
-            if($lastEventDateTime === null || $notification->eventDateTime() > $lastEventDateTime) {
+            if ($lastEventDateTime === null || $notification->eventDateTime() > $lastEventDateTime) {
                 $lastEventDateTime = $notification->eventDateTime();
             }
         }
 
-        if($commit && $lastEventDateTime !== null) {
+        if ($commit && $lastEventDateTime !== null) {
             $notificationRepository->markRead($lastEventDateTime);
         }
     }

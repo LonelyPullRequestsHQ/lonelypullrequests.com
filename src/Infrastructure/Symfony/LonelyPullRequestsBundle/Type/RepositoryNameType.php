@@ -18,14 +18,16 @@ class RepositoryNameType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform)
+    {
         return RepositoryName::fromString($value);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    {
         Ensure::isInstanceOf($value, '\LonelyPullRequests\Domain\RepositoryName');
 
         return $value->toString();
@@ -34,7 +36,8 @@ class RepositoryNameType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return self::NAME;
     }
 
