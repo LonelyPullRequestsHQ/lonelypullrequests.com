@@ -2,7 +2,6 @@ LonelyPullRequests\Domain\PullRequest:
   type: entity
   repositoryClass: LonelyPullRequests\Infrastructure\Persistence\DoctrinePullRequestsRepository
   table: pullrequest
-  schema: schema_name # The schema the table lies in, for platforms that support schemas (Optional, >= 2.5)
   readOnly: false
   indexes:
     name_index:
