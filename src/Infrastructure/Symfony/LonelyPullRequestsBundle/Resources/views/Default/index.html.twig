@@ -18,14 +18,14 @@
                 <thead>
                     <tr>
                         <th>Pull request</th>
-                        <th>Loneliness</th>
+                        <!--<th>Loneliness</th>-->
                     </tr>
                 </thead>
                 <tbody>
                     {% for pullRequest in pullRequests %}
                         <tr>
                             <td><a href="{{ pullRequest.url }}">{{ pullRequest.title }}</a></td>
-                            <td>{{ pullRequest.loneliness }}</td>
+                            <!--<td>{{ pullRequest.loneliness }}</td>-->
                         </tr>
                     {% endfor %}
                 </tbody>
