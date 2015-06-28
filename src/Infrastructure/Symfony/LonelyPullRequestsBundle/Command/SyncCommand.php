@@ -2,17 +2,11 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Command;
 
-use LonelyPullRequests\Domain\Loneliness;
-use LonelyPullRequests\Domain\Notification;
-use LonelyPullRequests\Domain\PullRequest;
-use LonelyPullRequests\Domain\Repository\NotificationRepository;
-use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
-use LonelyPullRequests\Infrastructure\Service\PullRequestSyncService;
+use LonelyPullRequests\Domain\Service\SyncService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class SyncCommand extends ContainerAwareCommand
 {
@@ -36,21 +30,19 @@ class SyncCommand extends ContainerAwareCommand
             );
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return null
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $commit = (bool) $input->getOption('commit');
         $all = (bool) $input->getOption('all');
 
-        /** @var ContainerInterface $container */
-        $container = $this->getContainer();
-
-        /** @var PullRequestsRepository $pullRequestRepository */
-        $pullRequestRepository = $container->get('lonely_pull_requests.repository.pull_requests');
-
-        /** @var NotificationRepository $notificationRepository */
-        $notificationRepository = $container->get('lonely_pull_requests.repository.notification');
-
-        $syncService = new PullRequestSyncService($pullRequestRepository, $notificationRepository);
+        /** @var SyncService $syncService */
+        $syncService = $this->getContainer()->get('lonely_pull_requests.service.sync');
         $syncService->sync($commit, $all);
     }
 }

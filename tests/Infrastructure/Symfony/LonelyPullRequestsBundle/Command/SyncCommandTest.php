@@ -2,7 +2,6 @@
 
 namespace LonelyPullRequests\Infrastructure\Symfony\LonelyPullRequestsBundle\Command;
 
-use LonelyPullRequests\Domain\Loneliness;
 use LonelyPullRequests\Domain\Notification;
 use LonelyPullRequests\Domain\Notifications;
 use LonelyPullRequests\Domain\PullRequestState;
@@ -15,8 +14,10 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
     private $outputInterface;
     private $container;
 
-    private $pullRequestRepository;
-    private $notificationRepository;
+    /**
+     * @var Mockery\MockInterface
+     */
+    private $syncService;
 
     public function setUp()
     {
@@ -24,8 +25,7 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
         $outputInterface = Mockery::mock('Symfony\Component\Console\Output\OutputInterface');
         $container = Mockery::mock('Symfony\Component\DependencyInjection\ContainerInterface');
 
-        $pullRequestRepository = Mockery::mock('LonelyPullRequests\Domain\Repository\PullRequestsRepository');
-        $notificationRepository = Mockery::mock('LonelyPullRequests\Domain\Repository\NotificationRepository');
+        $syncService = Mockery::mock('LonelyPullRequests\Domain\Service\PullRequestSyncService');
 
         $inputInterface
             ->shouldReceive('bind')
@@ -41,6 +41,10 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getOption')
             ->withArgs(['commit'])
             ->andReturn(true);
+        $inputInterface
+            ->shouldReceive('getOption')
+            ->withArgs(['all'])
+            ->andReturn(true);
 
         $outputInterface
             ->shouldReceive('writeln')
@@ -48,96 +52,23 @@ class SyncCommandTest extends PHPUnit_Framework_TestCase
 
         $container
             ->shouldReceive('get')
-            ->withArgs(['lonely_pull_requests.repository.pull_requests'])
-            ->andReturn($pullRequestRepository);
-
-        $container
-            ->shouldReceive('get')
-            ->withArgs(['lonely_pull_requests.repository.notification'])
-            ->andReturn($notificationRepository);
+            ->withArgs(['lonely_pull_requests.service.sync'])
+            ->andReturn($syncService);
 
         $this->inputInterface = $inputInterface;
         $this->outputInterface = $outputInterface;
         $this->container = $container;
 
-        $this->pullRequestRepository = $pullRequestRepository;
-        $this->notificationRepository = $notificationRepository;
+        $this->syncService = $syncService;
 
     }
 
-    public function testSyncCommandWithoutNotifications()
+    public function testSyncCommand()
     {
-        $this->notificationRepository
-            ->shouldReceive('all')
-            ->andReturn(new Notifications());
-        $this->inputInterface
-            ->shouldReceive('getOption')
-            ->withArgs(['all'])
-            ->andReturn(false);
-
-        $this->runCommand();
-    }
-
-    public function testSyncCommandWithoutNotificationButChangedState()
-    {
-        $notification = Notification::fromArray(array(
-            'title' => 'foobar',
-            'repositoryName' => 'foo/bar',
-            'url' => 'http://www.example.com/',
-            'eventDateTime' => 'now',
-            'pullRequestState' => PullRequestState::STATE_CLOSED
-        ));
-
-        $this->inputInterface
-            ->shouldReceive('getOption')
-            ->withArgs(['commit'])
-            ->andReturn(true);
-
-        $this->inputInterface
-            ->shouldReceive('getOption')
-            ->withArgs(['all'])
-            ->andReturn(true);
-
-        $this->pullRequestRepository
-            ->shouldReceive('remove');
-
-        $this->notificationRepository
-            ->shouldReceive('all')
-            ->andReturn(new Notifications([$notification]));
-
-        $this->notificationRepository
-            ->shouldReceive('markRead');
-
-        $this->runCommand();
-    }
-
-    public function testSyncCommandWithNotifications()
-    {
-        $this->notificationRepository
-            ->shouldReceive('all')
-            ->andReturn(new Notifications([
-                Notification::fromArray(array(
-                    'title' => 'foobar',
-                    'repositoryName' => 'foo/bar',
-                    'url' => 'http://www.example.com/',
-                    'eventDateTime' => 'now',
-                    'pullRequestState' => PullRequestState::STATE_OPEN
-                ))
-        ]));
-
-        $this->inputInterface
-            ->shouldReceive('getOption')
-            ->withArgs(['all'])
-            ->andReturn(true);
-
-        $this->notificationRepository
-            ->shouldReceive('markRead')
-            ->andReturnNull();
-
-        $this->pullRequestRepository
-            ->shouldReceive('add')
-            ->andReturnNull();
-
+        $this->syncService
+             ->shouldReceive('sync')
+            ->withArgs([true, true])
+            ;
         $this->runCommand();
     }
 
