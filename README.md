@@ -10,5 +10,6 @@ Ensure that [VirtualBox](https://www.virtualbox.org), [Vagrant](http://www.vagra
 1. `git clone git@github.com:LonelyPullRequestsHQ/lonelypullrequests.com.git --recursive`
 2. run `vagrant up`
 3. (from within the machine) `composer install` to install composer dependencies
+4. (from within the machine) `./app/console doctrine:schema:create` to create the database schematic
 
 All done! Now you can access the application at [http://lonelypullrequests.192.168.33.10.xip.io/](http://lonelypullrequests.192.168.33.10.xip.io/).
