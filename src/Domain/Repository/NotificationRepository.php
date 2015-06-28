@@ -7,9 +7,11 @@ use LonelyPullRequests\Domain\Notifications;
 interface NotificationRepository
 {
     /**
+     * @param bool $includingRead
+     *
      * @return Notifications
      */
-    public function all();
+    public function all($includingRead);
 
     /**
      * @param \DateTimeInterface $since

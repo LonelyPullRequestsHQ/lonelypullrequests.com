@@ -5,6 +5,7 @@ namespace LonelyPullRequests\Domain\Repository;
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
 use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Title;
 
 interface PullRequestsRepository
 {
@@ -14,11 +15,26 @@ interface PullRequestsRepository
     public function add(PullRequest $pullRequest);
 
     /**
+     * @param PullRequest $pullRequest
+     *
+     * @return boolean
+     */
+    public function has(PullRequest $pullRequest);
+
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return boolean
+     */
+    public function remove(PullRequest $pullRequest);
+
+    /**
      * @param RepositoryName $repositoryName
+     * @param Title          $title
      *
      * @return PullRequest|null
      */
-    public function getByRepositoryName(RepositoryName $repositoryName);
+    public function getByRepositoryNameTitle(RepositoryName $repositoryName, Title $title);
 
     /**
      * @return PullRequests

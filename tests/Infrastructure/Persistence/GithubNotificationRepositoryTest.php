@@ -3,6 +3,7 @@
 namespace LonelyPullRequests\Infrastructure\Persistence;
 
 use DateTime;
+use LonelyPullRequests\Domain\PullRequestState;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
@@ -20,6 +21,8 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
 
     private $notificationsMock;
 
+    private $pullRequestsMock;
+
     public function setUp()
     {
         $key = 'foobar';
@@ -27,9 +30,13 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
         $notifications = Mockery::mock('Github\Api\Notifications');
         $this->notificationsMock = $notifications;
 
+        $pullRequest = Mockery::mock('Github\Api\PullRequest');
+        $this->pullRequestsMock = $pullRequest;
+
         $client = Mockery::mock('Github\Client');
         $client->shouldReceive('authenticate')->withArgs([$key, null, $client::AUTH_HTTP_TOKEN])->andReturnNull();
         $client->shouldReceive('notifications')->andReturn($notifications);
+        $client->shouldReceive('pullRequest')->andReturn($pullRequest);
 
         $this->repository = new GithubNotificationRepository($client, $key);
         $this->notificationService = $notifications;
@@ -52,7 +59,7 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
                 ),
                 'subject' => array(
                     'title' => 'FooBar',
-                    'url' => 'http://www.example.com/',
+                    'url' => 'http://www.example.com/repos/foo/bar/pulls/1',
                     'type' => 'PullRequest',
                 ),
 
@@ -64,7 +71,7 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
                 ),
                 'subject' => array(
                     'title' => 'FooBar',
-                    'url' => 'http://www.example.com/',
+                    'url' => 'http://www.example.com/repos/foo/bar/issues/2',
                     'type' => 'Issue',
                 ),
 
@@ -72,6 +79,9 @@ class GithubNotificationRepositoryTest extends PHPUnit_Framework_TestCase
         );
 
         $this->notificationsMock->shouldReceive('all')->andReturn($notificationData);
+        $this->pullRequestsMock->shouldReceive('show')->andReturn([
+            'state' => PullRequestState::STATE_OPEN,
+        ]);
 
         $foundNotifications = $this->repository->all();
 

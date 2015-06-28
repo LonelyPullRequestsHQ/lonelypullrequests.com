@@ -19,7 +19,9 @@ final class PullRequests implements \IteratorAggregate, \Countable
     {
         Ensure::allIsInstanceOf($pullRequests, PullRequest::class);
 
-        $this->pullRequests = array_values($pullRequests);
+        foreach($pullRequests as $pullRequest) {
+            $this->pullRequests[$pullRequest->identifier()] = $pullRequest;
+        }
     }
 
     /**
@@ -29,7 +31,37 @@ final class PullRequests implements \IteratorAggregate, \Countable
      */
     public function add(PullRequest $pullRequest)
     {
-        return new PullRequests(array_merge($this->pullRequests, [$pullRequest]));
+        $newPullRequests = $this->pullRequests;
+
+        if($this->has($pullRequest)) {
+            $newPullRequests[$pullRequest->identifier()] = $pullRequest;
+        } else {
+            $newPullRequests[] = $pullRequest;
+        }
+
+        return new PullRequests($newPullRequests);
+    }
+
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return bool
+     */
+    public function has(PullRequest $pullRequest)
+    {
+        return isset($this->pullRequests[$pullRequest->identifier()]);
+    }
+
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return PullRequests
+     */
+    public function remove(PullRequest $pullRequest)
+    {
+        $newPullRequests = $this->pullRequests;
+        unset($newPullRequests[$pullRequest->identifier()]);
+        return new PullRequests($newPullRequests);
     }
 
     /**
@@ -45,6 +77,6 @@ final class PullRequests implements \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return sizeof($this->pullRequests);
+        return count($this->pullRequests);
     }
 }

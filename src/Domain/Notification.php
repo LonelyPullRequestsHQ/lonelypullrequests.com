@@ -29,6 +29,11 @@ final class Notification
     private $eventDateTime;
 
     /**
+     * @var PullRequestState
+     */
+    private $pullRequestState;
+
+    /**
      * @param $array
      *
      * @return Notification
@@ -39,12 +44,14 @@ final class Notification
         Ensure::keyExists($array, 'title');
         Ensure::keyExists($array, 'url');
         Ensure::keyExists($array, 'eventDateTime');
+        Ensure::keyExists($array, 'pullRequestState');
 
         return new self(
             RepositoryName::fromString($array['repositoryName']),
             Title::fromString($array['title']),
             Url::fromString($array['url']),
-            new DateTimeImmutable($array['eventDateTime'])
+            new DateTimeImmutable($array['eventDateTime']),
+            PullRequestState::fromString($array['pullRequestState'])
         );
     }
 
@@ -53,13 +60,15 @@ final class Notification
      * @param Title              $title
      * @param Url                $url
      * @param \DateTimeInterface $eventDateTime
+     * @param PullRequestState   $pullRequestState
      */
-    private function __construct(RepositoryName $repositoryName, Title $title, Url $url, DateTimeInterface $eventDateTime)
+    private function __construct(RepositoryName $repositoryName, Title $title, Url $url, DateTimeInterface $eventDateTime, PullRequestState $pullRequestState)
     {
         $this->repositoryName = $repositoryName;
         $this->title = $title;
         $this->url = $url;
         $this->eventDateTime = $eventDateTime;
+        $this->pullRequestState = $pullRequestState;
     }
 
     /**
@@ -102,5 +111,13 @@ final class Notification
     public function pullRequest(Loneliness $loneliness)
     {
         return PullRequest::create($this->title(), $this->repositoryName(), $this->url(), $loneliness);
+    }
+
+    /**
+     * @return PullRequestState
+     */
+    public function pullRequestState()
+    {
+        return $this->pullRequestState;
     }
 }

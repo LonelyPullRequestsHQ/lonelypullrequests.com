@@ -17,6 +17,11 @@ final class GithubNotificationRepository implements NotificationRepository
     private $notificationService;
 
     /**
+     * @var \Github\Api\PullRequest
+     */
+    private $pullRequestService;
+
+    /**
      * @param \Github\Client $client
      * @param string         $apiKey
      *
@@ -26,16 +31,19 @@ final class GithubNotificationRepository implements NotificationRepository
         $client->authenticate($apiKey, null, Client::AUTH_HTTP_TOKEN);
 
         $this->notificationService = $client->notifications();
+        $this->pullRequestService = $client->pullRequest();
     }
 
     /**
+     * @param bool $includingRead
+     *
      * @return Notifications
      */
-    public function all()
+    public function all($includingRead = false)
     {
         $notifications = array();
 
-        foreach ($this->notificationService->all() as $notificationStruct) {
+        foreach ($this->notificationService->all($includingRead) as $notificationStruct) {
             $notification = $this->createNotificationFromStruct($notificationStruct);
             if ($notification instanceof Notification) {
                 $notifications[] = $notification;
@@ -78,6 +86,16 @@ final class GithubNotificationRepository implements NotificationRepository
             return null;
         }
 
+        // Retrieve more information about the pullrequest
+        preg_match('#repos/(?P<username>.*)/(?P<repository>.*)/pulls/(?P<issueId>\d+)$#', $notificationStruct['subject']['url'], $matches);
+
+        Ensure::keyExists($matches, 'username');
+        Ensure::keyExists($matches, 'repository');
+        Ensure::keyExists($matches, 'issueId');
+
+        $pullRequestInformation = $this->pullRequestService->show($matches['username'], $matches['repository'], $matches['issueId']);
+        $pullRequestState = $pullRequestInformation['state'];
+
         // Translate Github API url to public website url
         $url = str_replace('https://api.github.com/repos/', 'https://github.com/', $notificationStruct['subject']['url']);
         $url = str_replace('/pulls/', '/pull/', $url);
@@ -87,6 +105,7 @@ final class GithubNotificationRepository implements NotificationRepository
             'title' => $notificationStruct['subject']['title'],
             'url' => $url,
             'eventDateTime' => $notificationStruct['updated_at'],
+            'pullRequestState' => $pullRequestState
         ]);
     }
 }

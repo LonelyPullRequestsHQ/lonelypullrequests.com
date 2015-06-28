@@ -5,8 +5,9 @@ namespace LonelyPullRequests\Infrastructure\Persistence;
 use Doctrine\ORM\EntityRepository;
 use LonelyPullRequests\Domain\PullRequest;
 use LonelyPullRequests\Domain\PullRequests;
-use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
 use LonelyPullRequests\Domain\RepositoryName;
+use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
+use LonelyPullRequests\Domain\Title;
 
 final class DoctrinePullRequestsRepository extends EntityRepository implements PullRequestsRepository
 {
@@ -25,12 +26,39 @@ final class DoctrinePullRequestsRepository extends EntityRepository implements P
     }
 
     /**
+     * @param PullRequest $pullRequest
+     * @return boolean
+     */
+    public function has(PullRequest $pullRequest)
+    {
+        return ($this->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title()) !== null);
+    }
+
+    /**
+     * @param PullRequest $pullRequest
+     *
+     * @return boolean
+     */
+    public function remove(PullRequest $pullRequest)
+    {
+        $entity = $this->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title());
+        if($entity !== null) {
+            $entityManager = $this->getEntityManager();
+            $entityManager->remove($entity);
+            $entityManager->flush();
+        }
+
+        return true;
+    }
+
+    /**
      * {{@inheritdoc}}
      */
-    public function getByRepositoryName(RepositoryName $repositoryName)
+    public function getByRepositoryNameTitle(RepositoryName $repositoryName, Title $title)
     {
         return $this->findOneBy([
-            'repositoryName' => $repositoryName->toString(),
+            'repositoryName' => $repositoryName,
+            'title' => $title,
         ]);
     }
 

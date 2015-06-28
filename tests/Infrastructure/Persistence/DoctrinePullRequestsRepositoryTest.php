@@ -13,6 +13,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
      * @var DoctrinePullRequestsRepository
      */
     private $repository;
+    private $entityManager;
     private $entityPersister;
     private $objects = array();
 
@@ -37,6 +38,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
         $entityManager
             ->shouldReceive('flush')
             ->andReturnNull();
+        $this->entityManager = $entityManager;
 
         $classMetadata = new \Doctrine\ORM\Mapping\ClassMetadata('\LonelyPullRequests\Domain\PullRequest');
         $this->repository = new DoctrinePullRequestsRepository($entityManager, $classMetadata);
@@ -52,7 +54,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\LonelyPullRequests\Domain\PullRequests', $pullRequests);
     }
 
-    public function testGetByName()
+    public function testGetByRepositoryNameTitle()
     {
         $pullRequest = PullRequest::fromArray([
             'title' => 'foobarbaz',
@@ -65,7 +67,7 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('load')
             ->andReturn($pullRequest);
 
-        $pullRequests = $this->repository->getByRepositoryName($pullRequest->repositoryName());
+        $pullRequests = $this->repository->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title());
         $this->assertInstanceOf('\LonelyPullRequests\Domain\PullRequest', $pullRequests);
     }
 
@@ -91,6 +93,72 @@ class DoctrinePullRequestsRepositoryTest extends PHPUnit_Framework_TestCase
             ->andReturn(array($pullRequest));
 
         $this->assertNotEmpty($this->repository->all());
+    }
+
+    public function testHas()
+    {
+        $pullRequest = PullRequest::fromArray([
+            'title' => 'a',
+            'repositoryName' => 'foo/bar',
+            'url' => 'http://www.example.com/',
+            'loneliness' => 42
+        ]);
+
+        $this->entityPersister
+            ->shouldReceive('loadAll')
+            ->andReturn(array())->byDefault();
+
+        $this->assertEmpty($this->repository->all());
+
+        $this->entityPersister
+            ->shouldReceive('load')
+            ->andReturn(null)
+            ->byDefault();
+        $this->assertFalse($this->repository->has($pullRequest));
+
+        $this->repository->add($pullRequest);
+
+        $this->entityPersister
+            ->shouldReceive('loadAll')
+            ->andReturn(array($pullRequest));
+
+        $this->assertNotEmpty($this->repository->all());
+
+        $this->entityPersister
+            ->shouldReceive('load')
+            ->andReturn($pullRequest);
+
+        $this->assertTrue($this->repository->has($pullRequest));
+    }
+
+    public function testRemove()
+    {
+        $pullRequest = PullRequest::fromArray([
+            'title' => 'a',
+            'repositoryName' => 'foo/bar',
+            'url' => 'http://www.example.com/',
+            'loneliness' => 42
+        ]);
+
+        $this->entityPersister
+            ->shouldReceive('loadAll')
+            ->andReturn(array())->byDefault();
+
+        $this->assertEmpty($this->repository->all());
+
+        $this->repository->add($pullRequest);
+
+        $this->entityPersister
+            ->shouldReceive('load')
+            ->andReturn($pullRequest);
+
+        $this->entityManager
+            ->shouldReceive('remove')
+            ->andReturn(null);
+
+        $this->repository->remove($pullRequest);
+
+        $this->assertEmpty($this->repository->all());
     }
 
     public function testPersistUpsert()
