@@ -21,3 +21,9 @@ parameters:
 
     # Github API key
     github_api_key: changeme
+
+    twitter:
+        oauth_access_token: changeme
+        oauth_access_token_secret: changeme
+        consumer_key: changeme
+        consumer_secret: changeme

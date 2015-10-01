@@ -7,6 +7,7 @@ use LonelyPullRequests\Domain\Notification;
 use LonelyPullRequests\Domain\PullRequestState;
 use LonelyPullRequests\Domain\Repository\NotificationRepository;
 use LonelyPullRequests\Domain\Repository\PullRequestsRepository;
+use LonelyPullRequests\Domain\Service\NotificationService;
 use LonelyPullRequests\Domain\Service\SyncService;
 
 /**
@@ -30,15 +31,24 @@ final class PullRequestSyncService implements SyncService
      * @var Notification|null
      */
     private $lastParsedNotification;
+    /**
+     * @var NotificationService
+     */
+    private $notificationService;
 
     /**
      * @param PullRequestsRepository $pullRequestsRepository
      * @param NotificationRepository $notificationRepository
+     * @param NotificationService $notificationService
      */
-    public function __construct(PullRequestsRepository $pullRequestsRepository, NotificationRepository $notificationRepository)
-    {
+    public function __construct(
+        PullRequestsRepository $pullRequestsRepository,
+        NotificationRepository $notificationRepository,
+        NotificationService $notificationService
+    ) {
         $this->pullRequestsRepository = $pullRequestsRepository;
         $this->notificationRepository = $notificationRepository;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -58,6 +68,14 @@ final class PullRequestSyncService implements SyncService
     }
 
     /**
+     * @return NotificationService
+     */
+    public function notificationService()
+    {
+        return $this->notificationService;
+    }
+
+    /**
      * Synchronizes the notification repository with the pullrequest repository
      *
      * @param bool $commit
@@ -71,7 +89,7 @@ final class PullRequestSyncService implements SyncService
 
         /** @var Notification $notification */
         foreach($notifications as $notification) {
-            $this->syncNotification($notification);
+            $this->syncNotification($notification, $commit);
         }
 
         $this->notifyParsedLastEvent($commit);
@@ -79,13 +97,26 @@ final class PullRequestSyncService implements SyncService
 
     /**
      * @param Notification $notification
+     * @param bool         $commit
      */
-    private function syncNotification(Notification $notification)
+    private function syncNotification(Notification $notification, $commit = false)
     {
         $pullRequest = $notification->pullRequest(Loneliness::fromInteger(0));
 
+        $firstSeen = false;
+        $existingPullRequest = $this->pullRequestsRepository()
+                                    ->getByRepositoryNameTitle($pullRequest->repositoryName(), $pullRequest->title());
+
+        if($existingPullRequest === null) {
+            $firstSeen = true;
+        }
+
         if($notification->pullRequestState()->equals(PullRequestState::STATE_OPEN)) {
             $this->pullRequestsRepository()->add($pullRequest);
+
+            if($commit && $firstSeen) {
+                $this->notificationService()->notify($pullRequest);
+            }
         } else {
             $this->pullRequestsRepository()->remove($pullRequest);
         }

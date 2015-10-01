@@ -23,7 +23,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/github-api": "~1.4",
         "beberlei/assert": "~2.3",
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "j7mbo/twitter-api-php": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.5",

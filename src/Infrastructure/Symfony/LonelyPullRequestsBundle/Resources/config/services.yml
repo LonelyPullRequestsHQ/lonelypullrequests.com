@@ -9,4 +9,15 @@ services:
         arguments: [@github_client, '%github_api_key%']
     github_client:
         class: Github\Client
-
+    lonely_pull_requests.service.notification.twitter:
+        class: LonelyPullRequests\Infrastructure\Service\TwitterNotificationService
+        arguments: [@twitter_api_exchange]
+    lonely_pull_requests.service.sync:
+        class: LonelyPullRequests\Infrastructure\Service\PullRequestSyncService
+        arguments:
+          - @lonely_pull_requests.repository.pull_requests
+          - @lonely_pull_requests.repository.notification
+          - @lonely_pull_requests.service.notification.twitter
+    twitter_api_exchange:
+        class: TwitterApiExchange
+        arguments: ['%twitter%']
