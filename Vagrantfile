@@ -38,4 +38,8 @@ Vagrant.configure("2") do |config|
             install_hhvm: "yes"
         }
     end
+
+    config.vm.provision "shell" do |s|
+        s.inline = "./app/console doctrine:schema:create"
+    end
 end
