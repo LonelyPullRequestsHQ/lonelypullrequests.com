@@ -26,6 +26,9 @@ final class PullRequest
      */
     private $loneliness;
 
+    /**
+     * @param array $array
+     */
     public static function fromArray(array $array)
     {
         Ensure::keyExists($array, 'title');
@@ -41,11 +44,25 @@ final class PullRequest
         );
     }
 
+    /**
+     * @param Title $title
+     * @param RepositoryName $repositoryName
+     * @param Url $url
+     * @param Loneliness $loneliness
+     *
+     * @return PullRequest
+     */
     public static function create(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
         return new self($title, $repositoryName, $url, $loneliness);
     }
 
+    /**
+     * @param Title $title
+     * @param RepositoryName $repositoryName
+     * @param Url $url
+     * @param Loneliness $loneliness
+     */
     private function __construct(Title $title, RepositoryName $repositoryName, Url $url, Loneliness $loneliness)
     {
         $this->title = $title;
