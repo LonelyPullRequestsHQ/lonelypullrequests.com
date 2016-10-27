@@ -3,6 +3,8 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
+date_default_timezone_set('Europe/Amsterdam');
+
 $devMode = (isset($_SERVER['USER']) && $_SERVER['USER'] == 'vagrant');
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
